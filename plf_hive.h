@@ -73,17 +73,17 @@ namespace plf
 
 
 // Overloads for advance etc must be defined here as they are called by range-assign/insert functions - otherwise compiler will call std:: bidirectional overloads:
-namespace std
+namespace plf
 {
     template <plf::hive_iterator_concept it_type, typename distance_type>
     auto advance( it_type& it, distance_type const distance ) -> void
     {
-        it.advance( static_cast<typename iterator_traits<it_type>::difference_type>( distance ) );
+        it.advance( static_cast<typename std::iterator_traits<it_type>::difference_type>( distance ) );
     }
 
 
     template <plf::hive_iterator_concept it_type>
-    [[nodiscard]] auto next( it_type it, typename iterator_traits<it_type>::difference_type const distance = 1 ) -> it_type
+    [[nodiscard]] auto next( it_type it, typename std::iterator_traits<it_type>::difference_type const distance = 1 ) -> it_type
     {
         it.advance( distance );
         return it;
@@ -91,7 +91,7 @@ namespace std
 
 
     template <plf::hive_iterator_concept it_type>
-    [[nodiscard]] auto prev( it_type it, typename iterator_traits<it_type>::difference_type const distance = 1 ) -> it_type
+    [[nodiscard]] auto prev( it_type it, typename std::iterator_traits<it_type>::difference_type const distance = 1 ) -> it_type
     {
         it.advance( -distance );
         return it;
@@ -99,7 +99,7 @@ namespace std
 
 
     template <plf::hive_iterator_concept it_type>
-    auto distance( it_type const first, it_type const last ) -> typename iterator_traits<it_type>::difference_type
+    auto distance( it_type const first, it_type const last ) -> typename std::iterator_traits<it_type>::difference_type
     {
         return first.distance( last );
     }
@@ -4122,18 +4122,18 @@ namespace plf
             friend const_reverse_iterator;
 
             template <hive_iterator_concept it_type, typename distance_type>
-            friend auto std::advance( it_type& it, distance_type const distance ) -> void;
+            friend auto plf::advance( it_type& it, distance_type const distance ) -> void;
 
             template <hive_iterator_concept it_type>
-            friend auto std::next(
+            friend auto plf::next(
                 it_type it, typename std::iterator_traits<it_type>::difference_type const distance ) -> it_type;
 
             template <hive_iterator_concept it_type>
-            friend auto std::prev(
+            friend auto plf::prev(
                 it_type it, typename std::iterator_traits<it_type>::difference_type const distance ) -> it_type;
 
             template <hive_iterator_concept it_type>
-            friend auto std::distance(
+            friend auto plf::distance(
                 it_type const first, it_type const last ) -> typename std::iterator_traits<it_type>::difference_type;
 
 
@@ -4720,18 +4720,18 @@ namespace plf
             friend class hive;
 
             template <hive_iterator_concept it_type, typename distance_type>
-            friend auto std::advance( it_type& it, distance_type const distance ) -> void;
+            friend auto plf::advance( it_type& it, distance_type const distance ) -> void;
 
             template <hive_iterator_concept it_type>
-            friend auto std::next(
+            friend auto plf::next(
                 it_type it, typename std::iterator_traits<it_type>::difference_type const distance ) -> it_type;
 
             template <hive_iterator_concept it_type>
-            friend auto std::prev(
+            friend auto plf::prev(
                 it_type it, typename std::iterator_traits<it_type>::difference_type const distance ) -> it_type;
 
             template <hive_iterator_concept it_type>
-            friend auto std::distance(
+            friend auto plf::distance(
                 it_type const first, it_type const last ) -> typename std::iterator_traits<it_type>::difference_type;
 
 
