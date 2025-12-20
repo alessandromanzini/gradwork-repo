@@ -123,7 +123,7 @@
     <inspection_tool class="CppDeclarationHidesUncapturedLocal" enabled="true" level="HINT" enabled_by_default="true" />
     <inspection_tool class="CppDeclarationSpecifierWithoutDeclarators" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="CppDeclaratorDisambiguatedAsFunction" enabled="true" level="WARNING" enabled_by_default="true" />
-    <inspection_tool class="CppDeclaratorNeverUsed" enabled="true" level="ERROR" enabled_by_default="true" editorAttributes="ERRORS_ATTRIBUTES" />
+    <inspection_tool class="CppDeclaratorNeverUsed" enabled="true" level="WARNING" enabled_by_default="true" editorAttributes="WARNING_ATTRIBUTES" />
     <inspection_tool class="CppDeclaratorUsedBeforeInitialization" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="CppDefaultCaseNotHandledInSwitchStatement" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="CppDefaultInitializationWithNoUserConstructor" enabled="true" level="WARNING" enabled_by_default="true" />

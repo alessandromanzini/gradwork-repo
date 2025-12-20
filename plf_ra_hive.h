@@ -254,7 +254,6 @@ namespace plf
             size_type group_number;
             // Used for comparison (> < >= <= <=>) iterator operators (used by distance function and user).
 
-
             group(
                 aligned_struct_allocator_type& aligned_struct_allocator, skipfield_type const elements_per_group,
                 group_pointer_type const previous )
@@ -312,6 +311,8 @@ namespace plf
         aligned_struct_allocator_type aligned_struct_allocator;
         skipfield_allocator_type skipfield_allocator;
         tuple_allocator_type tuple_allocator;
+
+        std::vector<group_pointer_type> groups{};
 
 
         static constexpr auto max_size_static( ) noexcept -> size_t
@@ -775,7 +776,7 @@ namespace plf
             std::allocator_traits<group_allocator_type>::construct(
                 group_allocator, new_group, aligned_struct_allocator, elements_per_group, previous );
 #endif
-
+            groups.push_back( new_group );
             return new_group;
         }
 
@@ -1348,16 +1349,19 @@ namespace plf
         {
             assert( index < total_capacity );
 
-            // 1. find correct group
-            group_pointer_type current_group = begin_iterator.group_pointer;
-            while ( index >= current_group->size )
-            {
-                index -= current_group->size;
-                current_group = current_group->next_group;
-            }
+            // 1. find correct group using indexing algorithm
+            constexpr size_t min_group_capacity = 175U;
+            constexpr size_t max_group_capacity = 255U;
+
+            size_t const group_index               = ( index + max_group_capacity - min_group_capacity ) / max_group_capacity;
+            group_pointer_type const element_group = groups.at( group_index );
+
+            // 2. adjust the index if group index is not 0
+            size_t const mask = static_cast<size_t>( group_index != 0U ) * 0xFFFFFFFF;
+            index -= ( min_group_capacity + ( group_index - 1U ) * max_group_capacity ) & mask;
 
             // 2. directly access the element
-            return *pointer_cast<pointer>( std::next( to_aligned_pointer( current_group->elements ), index ) );
+            return *pointer_cast<pointer>( std::next( to_aligned_pointer( element_group->elements ), index ) );
         }
 
 
